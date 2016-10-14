@@ -1,23 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="app">
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap-theme.min.css" rel="stylesheet">
 </head>
-<body ng-app="app">
+<body>
 
 <div ng-controller="BooksController as books">
+    <h1>This app is {{books.appName}}</h1>
 
-    <h1>Hello World!</h1>
-
-    <h2>This app is {{books.appName}}</h2>
-
+    <div>
+        <ul>
+            <li ng-repeat="book in books.allBooks">{{book.title}} - {{book.author}}</li>
+        </ul>
+    </div>
 </div>
 
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular.js"></script>
 <script src="app/app.js"></script>
+<script src="app/services/dataService.js"></script>
 <script src="app/books/BooksController.js"></script>
 </body>
 </html>

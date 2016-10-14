@@ -3,13 +3,13 @@
     angular.module('app')
         .controller('BooksController', BooksController);
 
-    function BooksController(books) {
+    function BooksController(books, dataService) {
 
         var vm = this;
 
         vm.appName = books.appName;
-
-
+        vm.allBooks = dataService.getAllBooks();
+        console.log(vm.allBooks);
     }
 
 
