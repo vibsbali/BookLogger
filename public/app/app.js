@@ -3,7 +3,7 @@
 
     var app = angular.module('app', []);
 
-    app.config(function($provide){
+    app.config(function($provide, constants){
 
         $provide.provider("books", function(){
 
@@ -15,7 +15,7 @@
 
             this.$get = function(){
                 var appName = "Books Logger";
-                var appDesc = "Track which books you read";
+                var appDesc = constants.APP_DESCRIPTION;
                 var version = "1.0";
 
                 if(includeVersionInTitle){
@@ -24,7 +24,7 @@
 
                 return {
                     appName: appName,
-                    addDesc: appDesc
+                    appDesc: appDesc
                 }
            };
         });
