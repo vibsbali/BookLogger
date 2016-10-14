@@ -6,9 +6,10 @@
     angular.module("app")
         .factory("dataService", dataService);
 
-   function dataService() {
+   function dataService(logger) {
 
        function getAllBooks(){
+           logger.output("Getting all readers");
            return [
                {
                    "book_id": 1,
@@ -76,7 +77,8 @@
               getAllBooks: getAllBooks,
               getAllReaders: getAllReaders
           };
-
-
       };
+
+      //This is an alternative way to inject external services
+      dataService.$inject = ["logger"];
 }());

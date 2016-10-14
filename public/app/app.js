@@ -3,7 +3,7 @@
 
     var app = angular.module('app', []);
 
-    app.config(function($provide, constants){
+    app.config(["$provide", "constants", function($provide, constants){
 
         $provide.provider("books", function(){
 
@@ -28,7 +28,7 @@
                 }
            };
         });
-    });
+    }]);
 
     //Configuring booksProvider
     app.config(function(booksProvider){
