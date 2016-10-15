@@ -14,9 +14,12 @@
         vm.allReaders = dataService.getAllReaders();
 
         dataService.getAllBooks()
-            .then(getBooksSuccess, getBooksError);
+            .then(getBooksSuccess, getBooksError, getBooksNotification)
+            .catch(errorCallback)
+            .finally(getAllBooksComplete);
 
         function getBooksSuccess(books) {
+            //throw "error in success handler";
             vm.allBooks = books;
         }
 
@@ -24,6 +27,18 @@
             logger.output("Error occured " + reason);
         }
 
+        function getBooksNotification(notification) {
+            logger.output("Progress " + notification);
+        }
+
+        function errorCallback(reason) {
+            logger.output(reason);
+        }
+
+        function getAllBooksComplete(){
+            logger.output("Books download complete");
+        }
+
         logger.output("BooksController has been created");
-    };
+    }
 }());

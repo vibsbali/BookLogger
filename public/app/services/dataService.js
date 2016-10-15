@@ -54,6 +54,8 @@
            $timeout(function(){
                var successful = true;
                if(successful){
+                   deferred.notify("50%");
+                   deferred.notify("90%");
                     deferred.resolve(books);
                    logger.output(books);
                } else {
