@@ -89,6 +89,14 @@
                    totalMinutesRead: 600
                }
            ];
+
+           var deferred = $q.deferred();
+
+           $timeout(function(){
+                deferred.resolve(readers);
+           }, 1000);
+
+           return deferred.promise;
        };
 
           return {

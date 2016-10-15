@@ -11,10 +11,17 @@
         vm.appDesc = books.appDesc;
 
         vm.getBadge = badgeService.retrieveBadge;
-        vm.allReaders = dataService.getAllReaders();
 
         dataService.getAllBooks()
-            .then(getBooksSuccess, getBooksError, getBooksNotification)
+            .then(getReadersSuccess, getBooksOrReadersError);
+
+        function getReadersSuccess(result) {
+            vm.allReaders = result;
+        }
+
+
+        dataService.getAllBooks()
+            .then(getBooksSuccess, getBooksOrReadersError, getBooksNotification)
             .catch(errorCallback)
             .finally(getAllBooksComplete);
 
@@ -23,7 +30,7 @@
             vm.allBooks = books;
         }
 
-        function getBooksError(reason) {
+        function getBooksOrReadersError(reason) {
             logger.output("Error occured " + reason);
         }
 
