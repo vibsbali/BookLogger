@@ -6,11 +6,11 @@
     angular.module("app")
         .factory("dataService", dataService);
 
-   function dataService(logger) {
+   function dataService(logger,$q, $timeout) {
 
        function getAllBooks(){
-           logger.output("Getting all readers");
-           return [
+
+           var books = [
                {
                    "book_id": 1,
                    "title": "Anna Karenina",
@@ -48,10 +48,26 @@
                    "year_published": "1960"
                }
            ]
+
+           //create deferred object
+           var deferred = $q.defer();
+           $timeout(function(){
+               var successful = true;
+               if(successful){
+                    deferred.resolve(books);
+                   logger.output(books);
+               } else {
+                   deferred.reject("Error retrieving books");
+               }
+           }, 1000);
+
+           return deferred.promise;
+
+
        };
 
        function getAllReaders(){
-           return[
+           var readers = [
                {
                    reader_id: 1,
                    name: 'Marie',
@@ -80,5 +96,5 @@
       };
 
       //This is an alternative way to inject external services
-      dataService.$inject = ["logger"];
+      dataService.$inject = ["logger", "$q", "$timeout"];
 }());

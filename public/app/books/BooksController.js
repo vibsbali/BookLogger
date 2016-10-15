@@ -12,7 +12,17 @@
 
         vm.getBadge = badgeService.retrieveBadge;
         vm.allReaders = dataService.getAllReaders();
-        vm.allBooks = dataService.getAllBooks();
+
+        dataService.getAllBooks()
+            .then(getBooksSuccess, getBooksError);
+
+        function getBooksSuccess(books) {
+            vm.allBooks = books;
+        }
+
+        function getBooksError(reason) {
+            logger.output("Error occured " + reason);
+        }
 
         logger.output("BooksController has been created");
     };
