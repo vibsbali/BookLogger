@@ -1,0 +1,15 @@
+<div>
+    <h2>All Books</h2>
+    <div>
+        <ul>
+            <li ng-repeat="book in books.allBooks">{{book.title}} - {{book.author}}</li>
+        </ul>
+    </div>
+
+    <h2>All Readers</h2>
+    <div>
+        <ul>
+            <li ng-repeat="reader in books.allReaders">{{reader.name}} - {{books.getBadge(reader.totalMinutesRead)}}</li>
+        </ul>
+    </div>
+</div>
