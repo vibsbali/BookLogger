@@ -19,9 +19,14 @@
             .when("/EditBook/:bookId", {
                 templateUrl: "app/templates/editbook.html",
                 controller: "EditBookController",
-                controllerAs: "editBook"
+                controllerAs: "editBook",
+                resolve: {
+                    books : function (dataService) {
+                        return dataService.getAllBooks()
+                    }
+                }
             })
-            // .otherwise("/");
+            .otherwise("/");
 
 
         $provide.provider("books", function () {
