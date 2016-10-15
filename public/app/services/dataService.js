@@ -90,7 +90,7 @@
                }
            ];
 
-           var deferred = $q.deferred();
+           var deferred = $q.defer();
 
            $timeout(function(){
                 deferred.resolve(readers);

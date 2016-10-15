@@ -12,7 +12,7 @@
 
         vm.getBadge = badgeService.retrieveBadge;
 
-        dataService.getAllBooks()
+        dataService.getAllReaders()
             .then(getReadersSuccess, getBooksOrReadersError);
 
         function getReadersSuccess(result) {
