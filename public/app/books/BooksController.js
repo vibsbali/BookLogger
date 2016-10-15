@@ -1,9 +1,9 @@
 (function() {
 
     angular.module('app')
-        .controller('BooksController', ["books", "dataService", "logger", "badgeService", BooksController]);
+        .controller('BooksController', ["$q", "books", "dataService", "logger", "badgeService", BooksController]);
 
-    function BooksController(books, dataService, logger, badgeService) {
+    function BooksController($q, books, dataService, logger, badgeService) {
 
         var vm = this;
 
@@ -12,27 +12,41 @@
 
         vm.getBadge = badgeService.retrieveBadge;
 
-        dataService.getAllReaders()
-            .then(getReadersSuccess, getBooksOrReadersError);
-
-        function getReadersSuccess(result) {
-            vm.allReaders = result;
-        }
+        // dataService.getAllReaders()
+        //     .then(getReadersSuccess, getBooksOrReadersError);
+        var booksPromise = dataService.getAllBooks();
+        var readersPromise = dataService.getAllReaders();
 
 
-        dataService.getAllBooks()
-            .then(getBooksSuccess, getBooksOrReadersError, getBooksNotification)
+        $q.all([booksPromise, readersPromise])
+            .then(getAllDataSuccess)
             .catch(errorCallback)
             .finally(getAllBooksComplete);
 
-        function getBooksSuccess(books) {
-            //throw "error in success handler";
-            vm.allBooks = books;
+        function getAllDataSuccess(dataArray) {
+            vm.allBooks = dataArray[0];
+            logger.output(dataArray);
+            vm.allReaders = dataArray[1];
         }
 
-        function getBooksOrReadersError(reason) {
-            logger.output("Error occured " + reason);
-        }
+        // function getReadersSuccess(result) {
+        //     vm.allReaders = result;
+        // }
+
+
+        // dataService.getAllBooks()
+        //     .then(getBooksSuccess, getBooksOrReadersError, getBooksNotification)
+        //     .catch(errorCallback)
+        //     .finally(getAllBooksComplete);
+
+        // function getBooksSuccess(books) {
+        //     //throw "error in success handler";
+        //     vm.allBooks = books;
+        // }
+        //
+        // function getBooksOrReadersError(reason) {
+        //     logger.output("Error occured " + reason);
+        // }
 
         function getBooksNotification(notification) {
             logger.output("Progress " + notification);
@@ -43,7 +57,8 @@
         }
 
         function getAllBooksComplete(){
-            logger.output("Books download complete");
+            //logger.output("Books download complete");
+            logger.output("All data downloaded");
         }
 
         logger.output("BooksController has been created");
