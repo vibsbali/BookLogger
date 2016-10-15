@@ -19,9 +19,9 @@
             .when("/EditBook/:bookId", {
                 templateUrl: "app/templates/editbook.html",
                 controller: "EditBookController",
-                controllerAs: "addBooks"
+                controllerAs: "editBook"
             })
-            .otherwise("/");
+            // .otherwise("/");
 
 
         $provide.provider("books", function () {

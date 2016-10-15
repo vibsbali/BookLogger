@@ -2,8 +2,13 @@
     <h2>All Books</h2>
     <div>
         <ul>
-            <li ng-repeat="book in books.allBooks">{{book.title}} - {{book.author}}</li>
+            <li ng-repeat="book in books.allBooks">{{book.title}} - {{book.author}} <a
+                    href="#/EditBook/{{book.book_id}}">Edit</a></li>
         </ul>
+    </div>
+    
+    <div>
+        <a href="#/AddBook">Add a new book</a>
     </div>
 
     <h2>All Readers</h2>
