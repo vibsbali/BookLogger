@@ -1,24 +1,43 @@
 "use strict";
-(function() {
+(function () {
 
-    var app = angular.module('app', []);
+    var app = angular.module('app', ["ngRoute"]);
 
-    app.config(["$provide", "constants", function($provide, constants){
+    app.config(["$provide", "constants", "$routeProvider", function ($provide, constants, $routeProvider) {
 
-        $provide.provider("books", function(){
+        $routeProvider
+            .when("/", {
+                templateUrl: "app/templates/books.html",
+                controller: "BooksController",
+                controllerAs: "books"
+            })
+            .when("/AddBook", {
+                templateUrl: "app/templates/addbook.html",
+                controller: "AddBookController",
+                controllerAs: "addBooks"
+            })
+            .when("/EditBook/:bookId", {
+                templateUrl: "app/templates/editbook.html",
+                controller: "EditBookController",
+                controllerAs: "addBooks"
+            })
+            .otherwise("/");
+
+
+        $provide.provider("books", function () {
 
             //This is the configuration part
             var includeVersionInTitle = false;
-            this.setIncludeVersionInTitle = function(value){
+            this.setIncludeVersionInTitle = function (value) {
                 includeVersionInTitle = value;
             };
 
-            this.$get = function(){
+            this.$get = function () {
                 var appName = "Books Logger";
                 var appDesc = constants.APP_DESCRIPTION;
                 var version = "1.0";
 
-                if(includeVersionInTitle){
+                if (includeVersionInTitle) {
                     appName += " " + version;
                 }
 
@@ -26,12 +45,12 @@
                     appName: appName,
                     appDesc: appDesc
                 }
-           };
+            };
         });
     }]);
 
     //Configuring booksProvider
-    app.config(function(booksProvider){
+    app.config(function (booksProvider) {
         booksProvider.setIncludeVersionInTitle(true);
     });
 
