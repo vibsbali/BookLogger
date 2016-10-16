@@ -1,9 +1,9 @@
 (function() {
 
     angular.module('app')
-        .controller('BooksController', ["$q", "books", "dataService", "logger", "badgeService", BooksController]);
+        .controller('BooksController', ["$q", "books", "dataService", "logger", "badgeService", "$cookies", "$cookieStore", BooksController]);
 
-    function BooksController($q, books, dataService, logger, badgeService) {
+    function BooksController($q, books, dataService, logger, badgeService, $cookies, $cookieStore) {
 
         var vm = this;
 
@@ -11,6 +11,9 @@
         vm.appDesc = books.appDesc;
 
         vm.getBadge = badgeService.retrieveBadge;
+        vm.favoriteBook = $cookies.favoriteBook;
+        vm.lastEdited = $cookieStore.get("lastEdited");
+
 
         // dataService.getAllReaders()
         //     .then(getReadersSuccess, getBooksOrReadersError);

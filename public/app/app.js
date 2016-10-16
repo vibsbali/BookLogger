@@ -1,7 +1,7 @@
 "use strict";
 (function () {
 
-    var app = angular.module('app', ["ngRoute"]);
+    var app = angular.module('app', ["ngRoute", "ngCookies"]);
 
     app.config(["$provide", "constants", "$routeProvider", function ($provide, constants, $routeProvider) {
 
