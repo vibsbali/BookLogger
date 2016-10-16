@@ -1,9 +1,15 @@
 (function() {
 
     angular.module('app')
-        .controller('BooksController', ["$q", "books", "dataService", "logger", "badgeService", "$cookies", "$cookieStore", BooksController]);
+        .controller('BooksController', ["$q", "books", "dataService", "logger", "badgeService", "$cookies", "$cookieStore", "$log", BooksController]);
 
-    function BooksController($q, books, dataService, logger, badgeService, $cookies, $cookieStore) {
+    function BooksController($q, books, dataService, logger, badgeService, $cookies, $cookieStore, $log) {
+
+        $log.log("logging with log");
+        $log.info("info with log");
+        $log.warn("warn with log");
+        $log.error("error with log");
+        $log.debug("debug with log");
 
         var vm = this;
 

@@ -3,7 +3,9 @@
 
     var app = angular.module('app', ["ngRoute", "ngCookies"]);
 
-    app.config(["$provide", "constants", "$routeProvider", function ($provide, constants, $routeProvider) {
+    app.config(["$provide", "constants", "$routeProvider", "$logProvider", function ($provide, constants, $routeProvider, $logProvider) {
+
+        $logProvider.debugEnabled(false);
 
         $routeProvider
             .when("/", {
