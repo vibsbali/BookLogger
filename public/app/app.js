@@ -23,7 +23,7 @@
                 controller: "EditBookController",
                 controllerAs: "editBook",
                 resolve: {
-                    books : function (dataService) {
+                    books: function (dataService) {
                         return dataService.getAllBooks()
                     }
                 }

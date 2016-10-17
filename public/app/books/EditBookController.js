@@ -5,20 +5,27 @@
 
 (function () {
     angular.module("app")
-        .controller("EditBookController", ["$routeParams", "books", "$cookies", "$cookieStore", EditBookController]);
+        .controller("EditBookController", ["$routeParams", "$cookies", "$cookieStore", "dataService", "$log", "$location", EditBookController]);
 
-    function EditBookController($routeParams, books, $cookies, $cookieStore) {
+    function EditBookController($routeParams, $cookies, $cookieStore, dataService, $log, $location) {
         var vm = this;
+        vm.currentBook = {};
 
-        vm.currentBook = books.filter(function (item) {
-            return item.book_id == $routeParams.bookId
-        })[0];
+        dataService.getBookById($routeParams.bookId)
+            .then(getBookSuccess)
+            .catch(getBookError);
+
+        function getBookSuccess(book) {
+            vm.currentBook = book;
+            $cookieStore.put("lastEdited", vm.currentBook);
+        }
+
+        function getBookError(error) {
+            $log.error(error);
+        }
 
         vm.setAsFavorite = function(){
             $cookies.favoriteBook = vm.currentBook.title;
         }
-
-        $cookieStore.put("lastEdited", vm.currentBook);
-
     }
 }());

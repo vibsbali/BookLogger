@@ -18,14 +18,6 @@
                 }
             }).then(sendResponseData).catch(sendGetBooksError);
 
-            function sendResponseData(response) {
-                return response.data;
-            };
-
-            function sendGetBooksError(error) {
-                return $q.reject("Error retrieving books " + response.status);
-            };
-
             // var books = [
             //     {
             //         "book_id": 1,
@@ -80,8 +72,14 @@
             // }, 1000);
             //
             // return deferred.promise;
+        };
 
+        function sendResponseData(response) {
+            return response.data;
+        };
 
+        function sendGetBooksError(error) {
+            return $q.reject("Error retrieving books " + error.status);
         };
 
         //get book by bookId
