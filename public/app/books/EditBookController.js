@@ -24,6 +24,21 @@
             $log.error(error);
         }
 
+        vm.saveBook = function(){
+            dataService.updateBook(vm.currentBook)
+                .then(updateBookSuccess)
+                .catch(updateBookError)
+        };
+
+        function updateBookSuccess(message){
+            $log.info(message);
+            $location.path("/");
+        };
+
+        function updateBookError(errorMessage) {
+            $log.error(errorMessage);
+        };
+
         vm.setAsFavorite = function(){
             $cookies.favoriteBook = vm.currentBook.title;
         }
