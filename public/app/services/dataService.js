@@ -130,6 +130,24 @@
             return $q.reject("Error adding a book (HTTP Status : " + response.status + ")");
         }
 
+        //method to delete a book
+        function deleteBook(bookId){
+            return $http({
+                method: "DELETE",
+                url: "api/books/" + bookId
+            })
+                .then(deleteBookSuccess)
+                .catch(deleteBookError)
+        };
+
+        function deleteBookSuccess(response){
+            return "Book Deleted " + response.config.data.title;
+        }
+
+        function deleteBookError(response){
+            return $q.reject("Error deleting a book (HTTP Status : " + response.status + ")");
+        }
+
 
         function getAllReaders() {
             var readers = [
@@ -167,7 +185,8 @@
             getAllReaders: getAllReaders,
             getBookById: getBookById,
             updateBook: updateBook,
-            addBook: addBook
+            addBook: addBook,
+            deleteBook: deleteBook
         };
     };
 

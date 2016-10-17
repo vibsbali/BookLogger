@@ -1,17 +1,5 @@
 [
     {
-        "book_id": 1,
-        "title": "Anna Karenina",
-        "author": "Leo Tolstoy",
-        "year_published": "1878"
-    },
-    {
-        "book_id": 2,
-        "title": "The Things They Carried",
-        "author": "Tim O'Brien",
-        "year_published": "1991"
-    },
-    {
         "book_id": 3,
         "title": "Invisible Man",
         "author": "Ralph Ellison",
@@ -28,17 +16,5 @@
         "title": "The Cat and the Hat",
         "author": "Dr. Seuss",
         "year_published": "1950"
-    },
-    {
-        "book_id": 61,
-        "title": "Green Eggs and Ham",
-        "author": "Dr. Seuss",
-        "year_published": "1960"
-    },
-    {
-        "book_id": 62,
-        "title": "Diary of a wimpy kid",
-        "author": "Jeff Kinney",
-        "year_published": "2007"
     }
 ]

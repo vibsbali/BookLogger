@@ -1,9 +1,9 @@
 (function() {
 
     angular.module('app')
-        .controller('BooksController', ["$q", "books", "dataService", "logger", "badgeService", "$cookies", "$cookieStore", "$log", BooksController]);
+        .controller('BooksController', ["$q", "books", "dataService", "logger", "badgeService", "$cookies", "$cookieStore", "$log", "$route", BooksController]);
 
-    function BooksController($q, books, dataService, logger, badgeService, $cookies, $cookieStore, $log) {
+    function BooksController($q, books, dataService, logger, badgeService, $cookies, $cookieStore, $log, $route) {
 
         $log.log("logging with log");
         $log.info("info with log");
@@ -68,6 +68,21 @@
         function getAllBooksComplete(){
             //logger.output("Books download complete");
             logger.output("All data downloaded");
+        }
+
+        vm.deleteBook = function(bookId){
+            dataService.deleteBook(bookId)
+                .then(deleteBookSuccess)
+                .error(deleteBookError)
+        };
+
+        function deleteBookSuccess(message) {
+            $log.info(message);
+            $route.reload();
+        }
+
+        function deleteBookError(errorMessage) {
+            $log.error(errorMessage);
         }
 
 
