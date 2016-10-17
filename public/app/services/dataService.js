@@ -23,7 +23,7 @@
             };
 
             function sendGetBooksError(error) {
-                return $q.reject("Error retrieving books " + response.statusCode);
+                return $q.reject("Error retrieving books " + response.status);
             };
 
             // var books = [
@@ -84,6 +84,35 @@
 
         };
 
+        //get book by bookId
+        function getBookById(bookId) {
+            return $http({
+                method: "GET",
+                url: "api/books/" + bookId
+            })
+                .then(sendResponseData)
+                .catch(sendGetBooksError);
+        };
+
+        //method to update a book
+        function updateBook(book) {
+            return $http({
+                method: "PUT",
+                url: "api/books/" + book.book_id,
+                data: book
+            })
+                .then(updateBookSuccess)
+                .catch(updateBookError)
+        };
+
+        function updateBookSuccess(response){
+            return "Book Updated " + response.config.data.title;
+        }
+
+        function updateBookError(response){
+            return $q.reject("Error updating book (HTTP Status : " + response.status + ")");
+        }
+
         function getAllReaders() {
             var readers = [
                 {
@@ -117,7 +146,9 @@
 
         return {
             getAllBooks: getAllBooks,
-            getAllReaders: getAllReaders
+            getAllReaders: getAllReaders,
+            getBookById: getBookById,
+            updateBook: updateBook
         };
     };
 
