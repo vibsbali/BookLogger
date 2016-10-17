@@ -16,17 +16,17 @@
             .when("/AddBook", {
                 templateUrl: "app/templates/addbook.html",
                 controller: "AddBookController",
-                controllerAs: "addBooks"
+                controllerAs: "bookAdder"
             })
             .when("/EditBook/:bookId", {
                 templateUrl: "app/templates/editbook.html",
                 controller: "EditBookController",
-                controllerAs: "editBook",
-                resolve: {
-                    books: function (dataService) {
-                        return dataService.getAllBooks()
-                    }
-                }
+                controllerAs: "editBook"
+                // resolve: {
+                //     books: function (dataService) {
+                //         return dataService.getAllBooks()
+                //     }
+                // }
             })
             .otherwise("/");
 

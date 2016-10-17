@@ -111,6 +111,26 @@
             return $q.reject("Error updating book (HTTP Status : " + response.status + ")");
         }
 
+        //method to add a new book
+        function addBook(book){
+            return $http({
+                method: "POST",
+                url: "api/books",
+                data: book
+            })
+                .then(addBookSuccess)
+                .catch(addBookError)
+        };
+
+        function addBookSuccess(response){
+            return "Book Added " + response.config.data.title;
+        }
+
+        function addBookError(response){
+            return $q.reject("Error adding a book (HTTP Status : " + response.status + ")");
+        }
+
+
         function getAllReaders() {
             var readers = [
                 {
@@ -146,7 +166,8 @@
             getAllBooks: getAllBooks,
             getAllReaders: getAllReaders,
             getBookById: getBookById,
-            updateBook: updateBook
+            updateBook: updateBook,
+            addBook: addBook
         };
     };
 
