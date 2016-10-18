@@ -16,5 +16,11 @@
         "title": "The Cat and the Hat",
         "author": "Dr. Seuss",
         "year_published": "1950"
+    },
+    {
+        "book_id": 60,
+        "title": "Romeo and Juliet",
+        "author": "Hamton",
+        "year_published": "1943"
     }
 ]
