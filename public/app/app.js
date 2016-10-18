@@ -3,9 +3,11 @@
 
     var app = angular.module('app', ["ngRoute", "ngCookies"]);
 
-    app.config(["$provide", "constants", "$routeProvider", "$logProvider", function ($provide, constants, $routeProvider, $logProvider) {
+    app.config(["$provide", "constants", "$routeProvider", "$logProvider", "$httpProvider", function ($provide, constants, $routeProvider, $logProvider, $httpProvider) {
 
         $logProvider.debugEnabled(false);
+
+        $httpProvider.interceptors.push("bookLoggerInterceptor");
 
         $routeProvider
             .when("/", {

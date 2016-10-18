@@ -22,5 +22,11 @@
         "title": "Romeo and Juliet",
         "author": "Hamton",
         "year_published": "1943"
+    },
+    {
+        "book_id": 61,
+        "title": "Charlie Mason",
+        "author": "Mason",
+        "year_published": "2000"
     }
 ]
