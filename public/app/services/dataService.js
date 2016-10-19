@@ -6,7 +6,7 @@
     angular.module("app")
         .factory("dataService", dataService);
 
-    function dataService(logger, $q, $timeout, $http, constants, $cacheFactory) {
+    function dataService(logger, $q, $timeout, $http, constants, $cacheFactory, $log) {
 
         function getAllBooks() {
             // var dataCache = $cacheFactory.get("bookLoggerCache");
@@ -92,6 +92,8 @@
         }
 
         function sendResponseData(response) {
+            //$log.log("All books retrieved");
+            $log.awesome("All books retrieved");
             return response.data;
         };
 
@@ -280,5 +282,5 @@
     };
 
     //This is an alternative way to inject external services
-    dataService.$inject = ["logger", "$q", "$timeout", "$http", "constants", "$cacheFactory"];
+    dataService.$inject = ["logger", "$q", "$timeout", "$http", "constants", "$cacheFactory", "$log"];
 }());

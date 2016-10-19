@@ -5,7 +5,7 @@
 
     app.config(["$provide", "constants", "$routeProvider", "$logProvider", "$httpProvider", function ($provide, constants, $routeProvider, $logProvider, $httpProvider) {
 
-        $logProvider.debugEnabled(false);
+        $logProvider.debugEnabled(true);
 
         $httpProvider.interceptors.push("bookLoggerInterceptor");
 
@@ -56,6 +56,47 @@
                 }
             };
         });
+
+        $provide.decorator("$log", ["$delegate", "books", logDecorator]);
+
+        function logDecorator($delegate, books){
+            function log(message) {
+                message += " - " + new Date() + " (" + books.appName + " )";
+                $delegate.log(message);
+            };
+
+            function info(message) {
+                $delegate.info(message);
+            };
+
+            function warn(message) {
+                $delegate.warn(message);
+            };
+
+            function error(message) {
+                $delegate.error(message);
+            };
+
+            function debug(message) {
+                message += " - " + new Date() + " (" + books.appName + " )";
+                $delegate.debug(message);
+            };
+
+            //adding additional properties
+            function awesome(message){
+                message += " - Awesome";
+                $delegate.debug(message)
+            };
+
+            return {
+                log: log,
+                info: info,
+                warn: warn,
+                error: error,
+                debug: debug,
+                awesome: awesome
+            };
+        };
     }]);
 
     //Configuring booksProvider
