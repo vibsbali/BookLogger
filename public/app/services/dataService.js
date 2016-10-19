@@ -6,7 +6,7 @@
     angular.module("app")
         .factory("dataService", dataService);
 
-    function dataService(logger, $q, $timeout, $http, constants) {
+    function dataService(logger, $q, $timeout, $http, constants, $cacheFactory) {
 
         function getAllBooks() {
 
@@ -199,16 +199,48 @@
             return deferred.promise;
         };
 
+        function getUserSummary(){
+            var deferred = $q.defer();
+
+            console.log("gathering new summary data");
+
+            var booksPromise = getAllBooks();
+            var readersPromise = getAllReaders();
+
+            $q.all(booksPromise, readersPromise)
+                .then(function(booksAndReadersData){
+                    var allBooks = booksAndReadersData[0];
+                    var allReaders = booksAndReadersData[1];
+
+                    var grandTotalMinutes = 0;
+
+                    allReaders.forEach(function(currentReader, index, array){
+                        grandTotalMinutes += currentReader.totalMinutesRead;
+                    });
+
+                    var summaryData = {
+                        bookCount: allBooks.length,
+                        readerCount: allReaders.length,
+                        grandTotalMinutes: grandTotalMinutes
+                    };
+
+                    deferred.resolve(summaryData);
+                });
+
+            return deferred.promise;
+        };
+
         return {
             getAllBooks: getAllBooks,
             getAllReaders: getAllReaders,
             getBookById: getBookById,
             updateBook: updateBook,
             addBook: addBook,
-            deleteBook: deleteBook
+            deleteBook: deleteBook,
+            getUserSummary: getUserSummary
         };
     };
 
     //This is an alternative way to inject external services
-    dataService.$inject = ["logger", "$q", "$timeout", "$http", "constants"];
+    dataService.$inject = ["logger", "$q", "$timeout", "$http", "constants", "$cacheFactory"];
 }());
