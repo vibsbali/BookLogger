@@ -75,10 +75,10 @@
             // return deferred.promise;
         };
 
-        function transformGetBooks(data, headersGetter){
+        function transformGetBooks(data, headersGetter) {
             var transformed = angular.fromJson(data);
 
-            transformed.forEach(function(currentValue, index, array){
+            transformed.forEach(function (currentValue, index, array) {
                 currentValue.dateDownloaded = new Date();
             });
 
@@ -115,16 +115,16 @@
                 .catch(updateBookError)
         };
 
-        function updateBookSuccess(response){
+        function updateBookSuccess(response) {
             return "Book Updated " + response.config.data.title;
         }
 
-        function updateBookError(response){
+        function updateBookError(response) {
             return $q.reject("Error updating book (HTTP Status : " + response.status + ")");
         }
 
         //method to add a new book
-        function addBook(book){
+        function addBook(book) {
             return $http({
                 method: "POST",
                 url: "api/books",
@@ -135,22 +135,22 @@
                 .catch(addBookError)
         };
 
-        function transformPostRequest(data){
+        function transformPostRequest(data) {
             data.newBook = true;
             console.log(data);
             return JSON.stringify(data);
         }
 
-        function addBookSuccess(response){
+        function addBookSuccess(response) {
             return "Book Added " + response.config.data.title;
         }
 
-        function addBookError(response){
+        function addBookError(response) {
             return $q.reject("Error adding a book (HTTP Status : " + response.status + ")");
         }
 
         //method to delete a book
-        function deleteBook(bookId){
+        function deleteBook(bookId) {
             return $http({
                 method: "DELETE",
                 url: "api/books/" + bookId
@@ -159,11 +159,11 @@
                 .catch(deleteBookError)
         };
 
-        function deleteBookSuccess(response){
+        function deleteBookSuccess(response) {
             return "Book Deleted " + response.config.data.title;
         }
 
-        function deleteBookError(response){
+        function deleteBookError(response) {
             return $q.reject("Error deleting a book (HTTP Status : " + response.status + ")");
         }
 
@@ -199,33 +199,46 @@
             return deferred.promise;
         };
 
-        function getUserSummary(){
+        function getUserSummary() {
             var deferred = $q.defer();
 
-            console.log("gathering new summary data");
+            var dataCache = $cacheFactory.get("bookLoggerCache");
+            if (!dataCache) {
+                dataCache = $cacheFactory("bookLoggerCache");
+            }
 
-            var booksPromise = getAllBooks();
-            var readersPromise = getAllReaders();
+            var summaryFromCache = dataCache.get("summary");
+            if (summaryFromCache) {
+                console.log("returning summary from cache");
+                deferred.resolve(summaryFromCache);
+            }
+            else {
+                console.log("gathering new summary data");
 
-            $q.all(booksPromise, readersPromise)
-                .then(function(booksAndReadersData){
-                    var allBooks = booksAndReadersData[0];
-                    var allReaders = booksAndReadersData[1];
+                var booksPromise = getAllBooks();
+                var readersPromise = getAllReaders();
 
-                    var grandTotalMinutes = 0;
+                $q.all(booksPromise, readersPromise)
+                    .then(function (booksAndReadersData) {
+                        var allBooks = booksAndReadersData[0];
+                        var allReaders = booksAndReadersData[1];
 
-                    allReaders.forEach(function(currentReader, index, array){
-                        grandTotalMinutes += currentReader.totalMinutesRead;
+                        var grandTotalMinutes = 0;
+
+                        allReaders.forEach(function (currentReader, index, array) {
+                            grandTotalMinutes += currentReader.totalMinutesRead;
+                        });
+
+                        var summaryData = {
+                            bookCount: allBooks.length,
+                            readerCount: allReaders.length,
+                            grandTotalMinutes: grandTotalMinutes
+                        };
+
+                        dataCache.put("summary", summaryData);
+                        deferred.resolve(summaryData);
                     });
-
-                    var summaryData = {
-                        bookCount: allBooks.length,
-                        readerCount: allReaders.length,
-                        grandTotalMinutes: grandTotalMinutes
-                    };
-
-                    deferred.resolve(summaryData);
-                });
+            }
 
             return deferred.promise;
         };
