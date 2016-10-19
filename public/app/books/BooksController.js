@@ -20,6 +20,19 @@
         vm.favoriteBook = $cookies.favoriteBook;
         vm.lastEdited = $cookieStore.get("lastEdited");
 
+        //these are caching functions
+        dataService.getUserSummary()
+            .then(getUserSummarySuccess)
+            .error(getUserSummaryError);
+
+        function getUserSummarySuccess(response) {
+            console.log(response);
+            vm.summaryData = response;
+        }
+
+        function getUserSummaryError(error){
+            $log.debug("Error in retrieving summary data " + error.status);
+        }
 
         // dataService.getAllReaders()
         //     .then(getReadersSuccess, getBooksOrReadersError);
