@@ -5,9 +5,9 @@
 
 (function () {
     angular.module("app")
-        .controller("EditBookController", ["$routeParams", "$cookies", "$cookieStore", "dataService", "$log", "$location", EditBookController]);
+        .controller("EditBookController", ["$routeParams", "$cookies", "$cookieStore", "dataService", "$log", "$location", "currentUser", EditBookController]);
 
-    function EditBookController($routeParams, $cookies, $cookieStore, dataService, $log, $location) {
+    function EditBookController($routeParams, $cookies, $cookieStore, dataService, $log, $location, currentUser) {
         var vm = this;
         vm.currentBook = {};
 
@@ -17,7 +17,11 @@
 
         function getBookSuccess(book) {
             vm.currentBook = book;
-            $cookieStore.put("lastEdited", vm.currentBook);
+
+            //instead of cookie we are using service
+            currentUser.lastEditedBook = vm.currentBook;
+
+            //$cookieStore.put("lastEdited", vm.currentBook);
         }
 
         function getBookError(error) {

@@ -1,9 +1,9 @@
 (function() {
 
     angular.module('app')
-        .controller('BooksController', ["$q", "books", "dataService", "logger", "badgeService", "$cookies", "$cookieStore", "$log", "$route", BooksController]);
+        .controller('BooksController', ["$q", "books", "dataService", "logger", "badgeService", "$cookies", "$cookieStore", "$log", "$route", "currentUser", BooksController]);
 
-    function BooksController($q, books, dataService, logger, badgeService, $cookies, $cookieStore, $log, $route) {
+    function BooksController($q, books, dataService, logger, badgeService, $cookies, $cookieStore, $log, $route, currentUser) {
 
         $log.log("logging with log");
         $log.info("info with log");
@@ -18,7 +18,11 @@
 
         vm.getBadge = badgeService.retrieveBadge;
         vm.favoriteBook = $cookies.favoriteBook;
-        vm.lastEdited = $cookieStore.get("lastEdited");
+
+        //using currentUser service instead of $cookieStore
+        vm.lastEdited = currentUser.lastEditedBook;
+
+        //vm.lastEdited = $cookieStore.get("lastEdited");
 
         //these are caching functions
         dataService.getUserSummary()
