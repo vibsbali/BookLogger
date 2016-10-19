@@ -218,7 +218,7 @@
                 var booksPromise = getAllBooks();
                 var readersPromise = getAllReaders();
 
-                $q.all(booksPromise, readersPromise)
+                $q.all([booksPromise, readersPromise])
                     .then(function (booksAndReadersData) {
                         var allBooks = booksAndReadersData[0];
                         var allReaders = booksAndReadersData[1];
@@ -242,6 +242,9 @@
 
             return deferred.promise;
         };
+
+        //method to invalidate cache
+        
 
         return {
             getAllBooks: getAllBooks,

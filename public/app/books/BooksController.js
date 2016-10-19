@@ -23,7 +23,7 @@
         //these are caching functions
         dataService.getUserSummary()
             .then(getUserSummarySuccess)
-            .error(getUserSummaryError);
+            .catch(getUserSummaryError);
 
         function getUserSummarySuccess(response) {
             console.log(response);
