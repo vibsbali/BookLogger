@@ -3,7 +3,7 @@
         "book_id": 3,
         "title": "Invisible Man",
         "author": "Ralph Ellison",
-        "year_published": "1952"
+        "year_published": "1953"
     },
     {
         "book_id": 57,
@@ -22,11 +22,5 @@
         "title": "Romeo and Juliet",
         "author": "Hamton",
         "year_published": "1943"
-    },
-    {
-        "book_id": 61,
-        "title": "Charlie Mason",
-        "author": "Mason",
-        "year_published": "2000"
     }
 ]

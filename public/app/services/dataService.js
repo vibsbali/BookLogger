@@ -9,14 +9,19 @@
     function dataService(logger, $q, $timeout, $http, constants, $cacheFactory) {
 
         function getAllBooks() {
-
+            // var dataCache = $cacheFactory.get("bookLoggerCache");
+            // if (!dataCache) {
+            //     dataCache = $cacheFactory("bookLoggerCache");
+            // }
+            //
             return $http({
                 method: "GET",
                 url: "api/books",
                 headers: {
                     "PS-BookLogger-version": constants.APP_VERSION
                 },
-                transformResponse: transformGetBooks
+                transformResponse: transformGetBooks,
+                cache: true
             }).then(sendResponseData).catch(sendGetBooksError);
 
             // var books = [
@@ -116,6 +121,7 @@
         };
 
         function updateBookSuccess(response) {
+            deleteAllBooksRepsonseFromCache();
             deleteSummaryFromCache();
             return "Book Updated " + response.config.data.title;
         }
@@ -143,6 +149,7 @@
         }
 
         function addBookSuccess(response) {
+            deleteAllBooksRepsonseFromCache();
             deleteSummaryFromCache();
             return "Book Added " + response.config.data.title;
         }
@@ -162,6 +169,7 @@
         };
 
         function deleteBookSuccess(response) {
+            deleteAllBooksRepsonseFromCache();
             deleteSummaryFromCache();
             return "Book Deleted " + response.config.data.title;
         }
@@ -250,8 +258,14 @@
         function deleteSummaryFromCache(){
             var dataCache = $cacheFactory.get("bookLoggerCache");
             dataCache.remove("summary");
-        }
+        };
 
+        //method to invalidate $http cache
+        function deleteAllBooksRepsonseFromCache(){
+            var httpCache = $cacheFactory.get("$http"); //it is important that you have $http
+            console.log("DataService - Removing Cache from $http api/books");
+            httpCache.remove("api/books");
+        };
 
 
         return {
