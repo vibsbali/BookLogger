@@ -116,6 +116,7 @@
         };
 
         function updateBookSuccess(response) {
+            deleteSummaryFromCache();
             return "Book Updated " + response.config.data.title;
         }
 
@@ -142,6 +143,7 @@
         }
 
         function addBookSuccess(response) {
+            deleteSummaryFromCache();
             return "Book Added " + response.config.data.title;
         }
 
@@ -160,6 +162,7 @@
         };
 
         function deleteBookSuccess(response) {
+            deleteSummaryFromCache();
             return "Book Deleted " + response.config.data.title;
         }
 
@@ -244,7 +247,12 @@
         };
 
         //method to invalidate cache
-        
+        function deleteSummaryFromCache(){
+            var dataCache = $cacheFactory.get("bookLoggerCache");
+            dataCache.remove("summary");
+        }
+
+
 
         return {
             getAllBooks: getAllBooks,
